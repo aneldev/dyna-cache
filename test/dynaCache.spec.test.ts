@@ -47,7 +47,7 @@ describe('DynaCache', () => {
   it('should get snapshot', () => {
     size = dnCache.getMemSize();
     snapshot = dnCache.getSnapshot();
-    expect(snapshot.length > 4500000).toBe(true);
+    expect(snapshot.length * 2 > 4500000).toBe(true);
   });
 
 

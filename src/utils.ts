@@ -1,3 +1,5 @@
+import * as sizeof from 'object-sizeof';
+
 export function expireIn(expireInTime:string|number):number{
   if (typeof expireInTime == 'string') expireInTime=(expireInTime as string).toLowerCase();
 
@@ -46,7 +48,7 @@ export function JSONStringify(object: any, valueForCircularReferences: string = 
 }
 
 export function objectSize(obj: any): number {
-  return JSONStringify(obj).length;
+  return sizeof(obj);
 }
 
 export function sizeOfItem(key: string, data: any): number {
