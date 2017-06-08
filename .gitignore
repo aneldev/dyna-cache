@@ -1,0 +1,5 @@
+.git/
+.idea/
+debug-ground/debug-on-nodejs/
+node_modules/
+temp/
