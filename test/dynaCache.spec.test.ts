@@ -50,7 +50,6 @@ describe('DynaCache', () => {
     expect(snapshot.length * 2 > 4500000).toBe(true);
   });
 
-
   it('should clear the memory, size==0', () => {
     itemsCount = dnCache.getItemsCount();
     dnCache.clear();
