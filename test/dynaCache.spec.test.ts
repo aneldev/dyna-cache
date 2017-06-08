@@ -2,7 +2,6 @@ declare let window: any, global: any, describe: any, expect: any, it: any;
 import {DynaCache} from "./../src";
 
 let dnCache = new DynaCache({cacheLimit: 5000000});
-// (window || global).DynaCache = DynaCache;
 
 if (typeof window !== 'undefined') window.dnCache = dnCache;
 
@@ -47,7 +46,7 @@ describe('DynaCache', () => {
   it('should get snapshot', () => {
     size = dnCache.getMemSize();
     snapshot = dnCache.getSnapshot();
-    expect(snapshot.length * 2 > 4500000).toBe(true);
+    expect(snapshot.length > 4500000).toBe(true);
   });
 
   it('should clear the memory, size==0', () => {

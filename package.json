@@ -32,8 +32,7 @@
   "license": "MIT",
   "dependencies": {
     "babel-polyfill": "^6.9.1",
-    "babel-preset-stage-2": "^6.24.1",
-    "object-sizeof": "^1.2.0"
+    "babel-preset-stage-2": "^6.24.1"
   },
   "devDependencies": {
     "@types/jest": "^19.2.2",
