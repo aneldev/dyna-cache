@@ -2,7 +2,7 @@
 
 `dyna-cache` is a data holder that controls the memory size that uses to do not exceed a limit. 
 
-It ensures that your nodejs server will not exceed a memory limit while in browser you keep a small cache where you can save it easily in localstore or so.
+It ensures that your nodejs server will not exceed a memory limit while in the browser you keep a small cache where you can save it easily in a localstore or so.
 
 # Usage
 
@@ -42,11 +42,11 @@ You can create a Dyna Cache by this script:
 
 this creates a Cache of 5mb limit by default.
 
-You can create with any other size with options, for instance for 150mb this is the script: 
+You can create any other size with options, for instance for 150mb this is the script:
 
 `let myCache = new DynaCache({cacheLimit: 150000000});`
 
-All options are optional here is the list.
+All options are optional.
 
 | option name | type | default | description |
 | --- | --- | --- | --- |
@@ -58,14 +58,14 @@ All options are optional here is the list.
 | method  | returns | description |
 | ------  | ------ | ------ |
 | updateOptions(options: IDynaCacheOptions) | undefined | Updates the options DynaCache (by merge).
-| add(key: string, data: any, options?: IDataOptions) | boolean: if the item is saved in cache; if there is no space it won't be saved.| Adds an item or updates an existed one by key. Updates the `data` and or `options` (by overwrite) of the item. |
-| get(key: string) | any: the data for this key | Returns the saved data for this key or `undefined` in case where the is not item for this key. |
-| remove(key: string) | boolean: true if the key was existed and removed | Removed the item with this key |
-| clear() | undefined | Clears the cache, no events are triggered, epire times are cleared. |
-| getMemSize() | number: The memory size used by the cache in bytes | Gets the occupied memory be the cache. |
+| add(key: string, data: any, options?: IDataOptions) | boolean: if the item is saved in cache; if there is no space it won't be saved.| It adds an item or updates an existing one by key. Updates the `data` and or `options` (by overwrite) of the item. |
+| get(key: string) | any: the data for this key |It returns the saved data for this key or `undefined` in case there is not item for this key. |
+| remove (key: string) | boolean: true if the key was existed and removed | Removes the item with this key |
+| clear() | undefined | Clears the cache, no events are triggered. |
+| getMemSize() | number: The memory size used by the cache in bytes | It returns the occupied memory by cache in bytes. |
 | getItemsCount() | number: The number of the added items | Returns the number of the added items. |
-| updateItemOptions(key: string, options: IDataOptions) | boolean: true if the item exists and updated with the new options | Updates the options of an existed item by key (by overwrite). |
-| getExpired() | IKeyData[]: array with {key: string, data: any} objects | Returns the items that are expired but because of `keepExpired: true` in IDataOptions these items are still in cache. |
+| updateItemOptions(key: string, options: IDataOptions) | boolean: true if the item exists and it is updated with the new options | Updates the options of an existing item by key (by overwrite). |
+| getExpired() | IKeyData[]: array with {key: string, data: any} objects | Returns the items that are expired but because of their option `keepExpired: true` in IDataOptions these items are still in cache. |
 | getSnapshot() | string: a snapshot of the cache | Gets a snapshot of the cache in order to save it somewhere and reload it with `loadFromSnapShot`. |
 | loadFromSnapshot(snapshot: string) | nothing but it raises exception in case of faulty snapshot parse | Clears the Cache and loads the cache from this snapshot. (read for more lower) |
 | generateKeyForObject(obj: any) | string: crc32 | Generates key by object, useful to create easy keys by objects with the same structure and values. |
@@ -77,10 +77,10 @@ These options can be defined initially by the `add` method, updating the item by
 
 | option name | type | default | description |
 | --- | --- | --- | --- |
-| expiresIn | number _or_ string | undefined | When these items will be expired. The expired items be default are removed from the cache!  Number for ms or string followed by `ms`, `s`, `m`, `h`, `d`, `w`, `mo` and `y` for milliseconds, seconds, minutes, hours, days, weeks, months and years respectively. Examples: 1000 2s 3m 1d 2.5mo |
-| keepExpired | boolean | false | If true, the item will be not removed from the cache when is expired |
+| expiresIn | number _or_ string | undefined | When these items will be expired. The expired items by default are removed from the cache!  Number for ms or string followed by `ms`, `s`, `m`, `h`, `d`, `w`, `mo` and `y` for milliseconds, seconds, minutes, hours, days, weeks, months and years respectively. Examples: 1000 2s 3m 1d 2.5mo |
+| keepExpired | boolean | false | If true, the item will be not removed from the cache when it is expired |
 | onRemove | function(key: string) | undefined | Function called when this item will be removed |
-| onExpire | function(key: string, isRemoved: boolean) | undefined | Function called when the item is expired. As argument takes and the isRemoved where indicated if the item is removed also from the cache. |
+| onExpire | function(key: string, is Removed: boolean) | undefined | Function called when the item is expired. As argument takes and the isRemoved, where indicates if the item is removed also from the cache. |
 
 # Features
 
@@ -104,7 +104,7 @@ In this case the item will remain in Cache on Expire and again the callback will
 
 The *expired* items can be obtained by the `getExpired` method.
 
-All expired items can be removed automatically by the Cache engine, if on `add` there is no free space of new items. To keep an item permantelly in the Cache you have to set the option `doNotRemove: true`.
+All expired items can be removed automatically by the Cache engine, if on `add` there is no free space of new items. To keep an item permanently in the Cache you have to set the option `doNotRemove: true`.
 
 ## Snapshots
 
@@ -112,15 +112,15 @@ The snaphots are consisted of two only functions.
 
 ### getSnapshot(): string
 
-Returns a string when can be used from `loadFromSnapshot` method. 
+Returns a string when can be used by the `loadFromSnapshot` method.
 
-The size of the snapshow will not exceed the cache limit `cacheLimit`.
+The size of the sw will not exceed the cache limit `cacheLimit`.
  
 ### loadFromSnapshot(snapshot: string): undefined
 
 By this method, you clear the cache and load items from a snapshot. Therefore the cache will have only items saved in the snapshot.
  
-If an items expired in the since the snapshot taken, the item will be removed from the cache, but the function `onRemove`, `onExpire` of the item options (IDataOptions) cannot be called. But the `onRemove`, `onExpire` of the DynaCache (IDataOptions) will be called with these keys.
+If an item is expired since the snapshot is taken, the item will be removed from the cache, but the function `onRemove`, `onExpire` of the item options (IDataOptions) cannot be called. But the `onRemove`, `onExpire` of the DynaCache (IDataOptions) will be called with these keys.
 
 If the the running Cache uses smaller cache limit `cacheLimit`, items will be removed in order to make space. The `onRemove` of the DynaCache (IDataOptions) will be called. Note that in this case, instantly the Cache will occupy the amount of the memory needed to load the snapshot and it will reduce it removing the older used items.
 
@@ -128,24 +128,24 @@ If the the running Cache uses smaller cache limit `cacheLimit`, items will be re
 
 ## When an item is removed?
 
-An items is removed when 
+An item is removed when
 - the object user called the `remove` method with the key of this item
-- there is no enough memory adding an item; in order to make room for new items *the older used items* are removed
+- there is no enough memory adding an item; in order to make room for new items *the older used items* that are removed
 - the item is expired because `expiresIn` property in item's options and when the `keepExpired` isn't set to true
 
 Items with option `doNotRemove: true` will be never removed automatically, except if removed by the `remove` method.
 
 ## In which case an item cannot be saved in the Cache (using the add method)?
 
-When it is too big according the `cacheLimit` and cannot make room for it (removing othe ld and unused items).
+When it is too big according to the `cacheLimit` and cannot make room for it (removing other and unused items).
 
 ## Which items can be `expired` and remain in cache?
 
-The expired items with option `keepExpired: true`. 
+The expired items with the option `keepExpired: true`.
 
 ## Why to set an item `keepExpired: true`?
 
-This is a very nice feature. Imagine you use this cache to cache your network requests. You have some very expensive requests and you want to keep them updated. 
+This is a very nice feature. Imagine that you use this cache to cache your network requests. You have some very expensive requests and you want to keep them updated.
 
 You save the responses with these options `{expiresIn: '2h', keepExpired: true, onExpire: onGetStockXExpired}`. 
  
@@ -153,15 +153,15 @@ These options say that the item is expired in two hours, but do not remove it (`
 
 Once the item is expired the onGetStockXExpired will be called to fetch new stock values and update them (by `add` method). 
 
-While this resource is expensive _and might be fail_, in the meantime we don't want to loose this data but keep them available. 
+While this resource is expensive _and might fail_, in the meantime we don't want to lose this data but keep them available.
 
-Be this cheat we still serve the user with data while you try to fetch the new one.
+Cheating this way we still serve the user with data while you try to fetch the new one.
 
 # Important notes
 
 ## Regarding the `key` of an item
 
-Behind the scenes, this library uses the Javascript Dictionary (where is extremely fast). According Javascript, numeric keys are equal if are represented as strings.
+Behind the scenes, this library uses the Javascript Dictionary (where is extremely fast). According to Javascript, numeric keys are equal if are represented as strings.
  
 That means: 
 
@@ -208,7 +208,7 @@ if (customerFound) age = customer.age;
 
 console.log(`Customer added: ${isAdded} and his age is ${age}`);
 
-// create another cache with different cache limit
+// create another cache with a different cache limit
 let cacheProductsOptions = {cacheLimit: 3000000};
 let productsCache = new DynaCache(cacheProductsOptions);
 
@@ -255,7 +255,7 @@ if (customerFound) age = customer.age;
 
 console.log(`Customer added: ${isAdded} and his age is ${age}`);
 
-// create another cache with different cache limit
+// create another cache with a different cache limit
 let cacheProductsOptions: IDynaCacheOptions = {cacheLimit: 3000000};
 let productsCache: DynaCache = new DynaCache(cacheProductsOptions);
 
@@ -287,8 +287,8 @@ See the example located in `debug/fetch-example.ts`.
 
 # Fork, Debug, Build, Deploy
 
-This project is written in Typescript with ES6 (stage 2) but you can use it also from native Javascript code, in NodeJs and on any browser. 
+This project is written in Typescript with ES6 (stage 2) but you can also use it also from the native Javascript code, in NodeJs and on any browser.
 
-This project made with [dyna-ts-module-boilerplate](https://github.com/aneldev/dyna-ts-module-boilerplate)
+This project is? made with [dyna-ts-module-boilerplate](https://github.com/aneldev/dyna-ts-module-boilerplate)
 
 Feel free to fork it, have fun.
