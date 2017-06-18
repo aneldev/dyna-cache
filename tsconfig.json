@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
     "outDir": "./dist/",
+    "declaration": true,
+    "declarationDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": false,
     "module": "commonjs",
     "target": "es6",
-    "allowJs": true,
+    "jsx": "react",
+    "allowJs": false,
     "types" : [ "node" ]
   },
   "files": [

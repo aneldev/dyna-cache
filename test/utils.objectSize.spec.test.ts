@@ -1,5 +1,5 @@
 declare let describe:any, expect:any, it: any;
-import {objectSize} from "./../src/utils";
+import {objectSize} from "../src/utils";
 
 describe('utils.objectSize', () => {
   it('should return correct objectSize for string', () => {
