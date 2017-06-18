@@ -27,6 +27,7 @@
     ".build-dist": "set NODE_ENV=production && webpack --config webpack.dist.config.js",
     "test": "jest --coverage --no-cache",
     "test-watch": "jest --watch --verbose",
+    "publish-and-push": "npm version patch && npm publish && git push",
     "reinstall": "rm package-lock.json && rm -rf node_modules/ && npm install"
   },
   "keywords": [],
