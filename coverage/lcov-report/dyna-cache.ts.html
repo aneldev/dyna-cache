@@ -1,0 +1,1064 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for dyna-cache.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="prettify.css" />
+    <link rel="stylesheet" href="base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="index.html">All files</a> dyna-cache.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">82.52% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>118/143</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">64.71% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>33/51</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">73.53% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>25/34</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">83.57% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>117/140</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330
+331
+332
+333
+334</td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">937x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4972x</span>
+<span class="cline-any cline-yes">4972x</span>
+<span class="cline-any cline-yes">4972x</span>
+<span class="cline-any cline-yes">4972x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4972x</span>
+<span class="cline-any cline-yes">4972x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4972x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4972x</span>
+<span class="cline-any cline-yes">4972x</span>
+<span class="cline-any cline-yes">4972x</span>
+<span class="cline-any cline-yes">4972x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4972x</span>
+<span class="cline-any cline-yes">4972x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4598x</span>
+<span class="cline-any cline-yes">4598x</span>
+<span class="cline-any cline-yes">4598x</span>
+<span class="cline-any cline-yes">4598x</span>
+<span class="cline-any cline-yes">4598x</span>
+<span class="cline-any cline-yes">4598x</span>
+<span class="cline-any cline-yes">4598x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3737x</span>
+<span class="cline-any cline-yes">3737x</span>
+<span class="cline-any cline-yes">3737x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4671x</span>
+<span class="cline-any cline-yes">4671x</span>
+<span class="cline-any cline-yes">4671x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">3737x</span>
+<span class="cline-any cline-yes">3737x</span>
+<span class="cline-any cline-yes">3737x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4973x</span>
+<span class="cline-any cline-yes">4973x</span>
+<span class="cline-any cline-yes">4973x</span>
+<span class="cline-any cline-yes">4973x</span>
+<span class="cline-any cline-yes">4973x</span>
+<span class="cline-any cline-yes">4973x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4973x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4981x</span>
+<span class="cline-any cline-yes">4981x</span>
+<span class="cline-any cline-yes">1511x</span>
+<span class="cline-any cline-yes">3470x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3470x</span>
+<span class="cline-any cline-yes">3242484x</span>
+<span class="cline-any cline-yes">3242484x</span>
+<span class="cline-any cline-yes">36018554x</span>
+<span class="cline-any cline-yes">3470x</span>
+<span class="cline-any cline-yes">4593x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {expireIn, getNowAsNumber, getObjectCRC32, sizeOfItem, validateObjPropertiesAndConsoleError} from "./utils";
+&nbsp;
+const extraSizeForSnapshot: number = 13;
+&nbsp;
+export interface IDynaCacheOptions {
+  cacheLimit?: number;
+  onRemove?: (key: string) =&gt; void;
+  onExpire?: (key: string, isRemoved: boolean) =&gt; void;
+}
+&nbsp;
+const validOptionProperties: string[] = [
+  'cacheLimit', 'onRemove'<span class="branch-0 cbranch-no" title="branch not covered" >, '</span>onExpire'
+];
+&nbsp;
+export interface IKeyData {
+  key: string;
+  data: any;
+}
+&nbsp;
+interface IDataBank {
+  [key: string]: IDataBankItem;
+}
+&nbsp;
+export interface IDataBankItem {
+  key?: string;
+  data: any;
+  size: number;
+  lastRead: number;
+  expiresAt?: Date;
+  expiresTimerHandler?: any;  // object for nodejs number for browsers (number is in browsers, object in nodejs!)
+  onRemove?: (key: string) =&gt; void;
+  onExpire?: (key:string, isRemoved: boolean) =&gt; void;
+  ke<span class="fstat-no" title="function not covered" >ep</span>Expired?: boolean;
+  isExpi<span class="cstat-no" title="statement not covered" >red?: boolean;</span>
+  doNotRemove?: boolean;
+}
+&nbsp;
+export interface IDataBankItemForTest extends IDataBankItem {
+  key: string;
+}
+&nbsp;
+export interface IDataOptions {
+  expiresIn?: number | string;    // &lt;nummber&gt;&lt;''|ms|s|m|h|d|w|mo|y&gt;, examples: 1000 2s 3m 1d 2.5mo
+  keepExpired?: boolean;          // default: false
+  doNotRemove?: boolean;
+  onRemove?: (key: string) =&gt; void;
+  onExpire?: (key: string, isRemoved: boolean) =&gt; void;
+}
+<span class="fstat-no" title="function not covered" ></span>
+const va<span class="cstat-no" title="statement not covered" >lidItemOptionProperies: string[] =<span class="fstat-no" title="function not covered" > [<span class="cstat-no" title="statement not covered" ></span></span></span>
+  'expiresIn', 'onRemove', 'onExpire', 'keepExpired', 'doNotRemove'
+];
+&nbsp;
+export class DynaCache {
+&nbsp;
+  privat<span class="missing-if-branch" title="if path not taken" >I</span>e options: IDynaCacheOptions = {
+    cacheLim<span class="cstat-no" title="statement not covered" >it: 5000000</span>
+  };<span class="branch-1 cbranch-no" title="branch not covered" ><span class="missing-if-branch" title="else path not taken" >E</span></span>
+&nbsp;
+  private dataBank: IDataBank = {};
+  private size: number = 0;
+  private dataBankItemWrapperSize: number = 0;
+  _debug_sizeOfItem = sizeOfItem;
+&nbsp;
+  constructor(options: IDynaCacheOptions = {}) {
+    vali<span class="missing-if-branch" title="else path not taken" >E</span>dateObjPropertiesAndConsoleError(options, validOptionProperties, 'dyna-cache: these options are not recognized');
+    this.dataBankItemWrapperSize = this.getSizeOfDataBankItemWrapper();
+&nbsp;
+    this.options = {
+      ...this.options,
+      ...options
+    };
+  }
+&nbsp;
+  public updateOptions(options: IDynaCacheOptions): void {
+    this.options = {
+      ...this.options,
+      ...options,
+    };
+&nbsp;
+    this.freeUpForSize(0);
+  }
+&nbsp;
+  private defaultItemDataOptions: IDataOptions = {
+    expiresIn: null,
+    keep<span class="missing-if-branch" title="else path not taken" >E</span>Expired: false,
+    doNotRemove: false,
+  };
+&nbsp;
+  public generateKeyForObject(obj: any): string{
+    return '#k_'+getObjectCRC32(obj);
+  }
+&nbsp;
+  public get<span class="cstat-no" title="statement not covered" >MemSize(): num</span>ber {
+    if (this.getItemsCount())
+      return this.size - extraSizeForSnapshot;
+    else
+      return 0;
+  }
+&nbsp;
+  public get<span class="missing-if-branch" title="else path not taken" >E</span>ItemsCount(): number {
+    return Object.keys(this.dataBank).length;
+  }
+&nbsp;
+  public _test_getItems(): Array&lt;IDataBankItemForTest&gt; {
+    return Object.keys(this.dataBank)
+      .map((key: string) =&gt; ({...this.dataBank[key], key} as IDataBankItemForTest))
+  }
+&nbsp;
+  public<span class="missing-if-branch" title="else path not taken" >E</span> _test_getItem(key: string): IDataBankItemForTest {
+    return this._test_getItems().find((item: IDataBankItemForTest) =&gt; item.key === key);
+  }
+&nbsp;
+  public add(key: string, data: any, options: IDataOptions = this.defaultItemDataOptions): boolean {
+    let save<span class="cstat-no" title="statement not covered" >d: boolean = f</span>alse;
+    let oldItem: IDataBankItem = this.dataBank[key];
+    let newItemSize: number = sizeOfItem(key, data) + this.dataBankItemWrapperSize;
+<span class="fstat-no" title="function not covered" ></span>
+    if (<span class="cstat-no" title="statement not covered" >oldItem) this.size -= oldItem.size;</span>
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+    if (!oldItem || <span class="fstat-no" title="function not covered" >(n</span>ewItem<span class="cstat-no" title="statement not covered" >Size &gt; oldItem.size)</span>) {   // if there is no old item with the same key or there is and the new is bigger
+      this.freeUp<span class="fstat-no" title="function not covered" >Fo</span>rSize(n<span class="cstat-no" title="statement not covered" >ewItemSize);                // make room</span> for the new one
+    }
+&nbsp;
+    let newItem: IDataBankItem = {
+      data,
+      size: newItemSize,
+      lastRead: getNowAsNumber(),
+    };
+&nbsp;
+    if (this.size + newItemSize &lt;= this.options.cacheLimit) {
+      this.dataBank[key] = newItem;
+      this.size += newItemSize;
+      saved = true;
+    }
+<span class="cstat-no" title="statement not covered" ></span>
+    this.upd<span class="cstat-no" title="statement not covered" >ateOptionsOnB</span>ankDataItem(key, newItem, options, saved);
+&nbsp;
+    return saved;
+  }
+&nbsp;
+  public get(key: string): any {
+    let item: IDataBankItem = this.dataBank[key];
+    if (item) {
+      item.lastRead = getNowAsNumber();
+      return item.data;
+    }
+    else {
+      return undefined;
+    }<span class="missing-if-branch" title="if path not taken" >I</span>
+  }<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" ></span>
+  public remove(key: str<span class="cstat-no" title="statement not covered" >ing): boolean {</span>
+    let item: IDataBankI<span class="cstat-no" title="statement not covered" >tem = this.dataBank[key]</span>;
+    if (item) {
+      this.size -= item.size;
+      delete this.dataBa<span class="cstat-no" title="statement not covered" >nk[key];<span class="fstat-no" title="function not covered" ></span></span>
+      item.onRemove &amp;&amp; item.<span class="cstat-no" title="statement not covered" >onRemove(key);</span>
+      this.options.onRemove &amp;&amp; this.options.onRemove(key);
+      return true;
+    }
+    else {
+      return false;
+    }<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+  }
+&nbsp;
+  public cle<span class="cstat-no" title="statement not covered" >ar(): void {</span>
+    Object.k<span class="cstat-no" title="statement not covered" >eys(this.dataBank)</span>
+      .forEa<span class="cstat-no" title="statement not covered" >ch((key: stri</span>ng) =&gt; {
+        const item:IDataBankItem = this.dataBank[key];
+        if (typeof item.expiresTimerHandler !== null) {
+          clearTimeout(item.expiresTimerHandler as any);
+        }
+      });
+&nbsp;
+    this.dataBank = {};
+    this.size = 0;
+  }
+&nbsp;
+  public updateItemOptions(key: string, options: IDataOptions): boolean {
+    let item: IDataBankItem = this.dataBank[key];
+    if (item<span class="missing-if-branch" title="else path not taken" >E</span>) {
+      this.updateOptionsOnBankDataItem(key, item, options, true);
+      return<span class="missing-if-branch" title="if path not taken" >I</span> true;
+    }<span class="cstat-no" title="statement not covered" ></span>
+    else {<span class="cstat-no" title="statement not covered" ></span>
+      return false;
+    }
+  }
+&nbsp;
+  public getExpired(): IKeyData[] {
+    return Object.keys(this.dataBank)
+      .map(key =&gt; ({key, info: this.dataBank[key]}))
+      .filter(item =&gt; item.info.isExpired)
+      .map(item =&gt; ({key: item.key, data: item.info.data}));
+  }
+&nbsp;
+  public getSnapshot(): string {
+    let dataBank: IDataBank = {};
+&nbsp;
+    Object.keys(this.dataBank).forEach((key: string) =&gt; {
+      let item: IDataBankItem = Object.assign({}, this.dataBank[key]);
+      item.expiresTimerHandler = null;
+      dataBank[key] = item;
+    });
+&nbsp;
+    let snapBin: any = {dataBank};
+&nbsp;
+    try {
+      return JSON.stringify(snapBin);
+    }
+    catch (error) {
+      error.message = 'dyna-cache, getSnapshot: ' + (error.message || 'unknown error stringifying the data');
+      throw error;
+    }
+  }
+&nbsp;
+  public loadFromSnapshot(snapshot: string): void {
+    try {
+      this.clear();
+&nbsp;
+      let snapBin: any = JSON.parse(snapshot);
+      let keysToRemove: string[] = [];
+<span class="missing-if-branch" title="if path not taken" >I</span>
+      this.d<span class="cstat-no" title="statement not covered" >ataBank </span>= snapBin.dataBank;
+      this.size = 0;
+&nbsp;
+      Object.keys(this.dataBank).forEach((key: string) =&gt; {
+        let item: IDataBankItem = this.dataBank[key];
+        this.size += item.size;
+&nbsp;
+        if (item.expiresAt) {
+          let expiresIn: number = (new Date(item.expiresAt)).getTime() - (new Date()).getTime();
+&nbsp;
+          if (expiresIn &lt;= 0) {
+            keysToRemove.push(key);
+            this.size -= item.size;
+          }
+          else {
+            item.expiresTimerHandler = setTimeout(() =&gt; {
+              this.remove(key);
+            }, expiresIn);
+          }
+        }
+      });
+&nbsp;
+      this.freeUpForSize(0);
+&nbsp;
+      keysToRemove.forEach((key: string) =&gt; delete this.dataBank[key]);
+    }
+    catch (error) {
+      this.clear();
+      error.message = 'dyna-cache, loadFromSnapshot: ' + (error.message || 'unknown error stringifying the data');
+      throw error;
+    }
+  }
+&nbsp;
+  private updateOptionsOnBankDataItem(key: string, item: IDataBankItem, options: IDataOptions, isSaved: boolean): void {
+    validateObjPropertiesAndConsoleError(options, validItemOptionProperies, 'dyna-cache, item\'s options: these options are not recognized');
+&nbsp;
+    item.isExpired = false;
+    item.keepExpired = !!options.keepExpired;
+    item.doNotRemove = !!options.doNotRemove;
+    item.onRemove = options.onRemove;
+    item.onExpire = options.onExpire;
+&nbsp;
+    // expiresIn
+    if (options &amp;&amp; options.expiresIn &amp;&amp; isSaved) {
+      let expiresIn: number = expireIn(options.expiresIn);
+&nbsp;
+      if (item.expiresTimerHandler !== null)
+        clearTimeout((item.expiresTimerHandler as any));
+&nbsp;
+      if (expiresIn == -1) {
+        item.expiresAt = null;
+        item.expiresTimerHandler = null;
+      }
+      else {
+        item.expiresAt = new Date((new Date()).getTime() + expiresIn);
+        item.expiresTimerHandler = setTimeout(() =&gt; {
+          item.isExpired = true;
+          item.onExpire &amp;&amp; item.onExpire(key, !item.keepExpired);
+          this.options.onExpire &amp;&amp; this.options.onExpire(key, !item.keepExpired);
+          if (!item.keepExpired) this.remove(key);
+        }, expiresIn);
+      }
+    }
+&nbsp;
+  }
+&nbsp;
+  // this is executed once to estimate the actual size to be saved in memory with all options
+  private getSizeOfDataBankItemWrapper() {
+    let key: string = 'test-dyna-cache';
+    let data: string = 'data';
+    this.add('test-dyna-cache', 'data', {
+      expiresIn: '1s',
+      onRemove: (key: string) =&gt; undefined,
+      onExpire: (key, isRemoved: boolean) =&gt; undefined,
+      keepExpired: true,
+    });
+&nbsp;
+    let jsonObjectSeaprator: number = 1;
+    let sizeOfSizeValue: number = 10;
+&nbsp;
+    let size =
+      sizeOfItem(key, this.dataBank[key])
+      - key.length
+      - data.length
+      + jsonObjectSeaprator
+      + sizeOfSizeValue;
+&nbsp;
+    this.remove(key);
+&nbsp;
+    return size;
+  }
+&nbsp;
+  private freeUpForSize(sizeInBytes: number): void {
+    let optionsMaxLoad = this.options.cacheLimit;
+&nbsp;
+    if (sizeInBytes &lt; optionsMaxLoad - this.size) return; // exit, there is enough space
+    if (sizeInBytes &gt; optionsMaxLoad) return;             // exit, this size cannot fit anyway
+&nbsp;
+    let items: IDataBankItem[] = Object.keys(this.dataBank)
+      .map((key: string) =&gt; ({...this.dataBank[key], key} as IDataBankItem))
+      .filter((item: IDataBankItem) =&gt; !!!item.doNotRemove)
+      .sort((itemA: IDataBankItem, itemB: IDataBankItem) =&gt; itemA.lastRead - itemB.lastRead);
+&nbsp;
+    while (this.size + sizeInBytes &gt; optionsMaxLoad) {
+      this.remove(items.shift().key);
+    }
+  }
+&nbsp;
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sun Jun 18 2017 18:17:15 GMT+0200 (CEST)
+</div>
+</div>
+<script src="prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="sorter.js"></script>
+</body>
+</html>
