@@ -4,6 +4,10 @@
 
 It ensures that your nodejs server will not exceed a memory limit while in the browser you keep a small cache where you can save it easily in a localstore or so.
 
+# Installation
+
+npm install --save dyna-cache
+
 # Usage
 
 ```
@@ -34,6 +38,8 @@ With `getSnapshot` and `loadFromSnapshot` you can save and load the cache and us
 
 **By default the Cache is limited to 5mb**, however this can be changed in DynaCache options. 
 
+*Note*: The memory is counted by characters. A character might use more than one byte; for instance the Chinese characters take 4-5 bytes. So the real memory usage varies according the char coding. 
+
 # DynaCache options (IDynaCacheOptions)
 
 You can create a Dyna Cache by this script: 
@@ -50,7 +56,7 @@ All options are optional.
 
 | option name | type | default | description |
 | --- | --- | --- | --- |
-| cacheLimit | number | 5000000 | The cache limit in bytes. (5000000 == 1mb) |
+| cacheLimit | number | 5000000 | The cache limit in bytes. (5000000 == 5mb) |
 | onRemove | function (key: string) | undefined | Function called when any key is removed |
 | onExpire| function (key: string) | undefined | Function called when any key is expired (see the IDataOptions later) | 
 
