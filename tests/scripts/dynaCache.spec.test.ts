@@ -1,5 +1,5 @@
 declare let window: any, global: any, describe: any, expect: any, it: any;
-import {DynaCache} from "./../src";
+import {DynaCache} from "../../src/index";
 
 let dnCache = new DynaCache({cacheLimit: 5000000});
 

@@ -1,5 +1,5 @@
 declare let describe:any, expect:any, it: any;
-import {JSONStringify} from "../src/utils";
+import {JSONStringify} from "../../src/utils";
 
 describe('utils.JSONStringify', () => {
   it('should return string length 7', () => {
