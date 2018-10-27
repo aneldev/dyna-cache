@@ -110,7 +110,7 @@ export class DynaCache {
 		return this._test_getItems().find((item: IDataBankItemForTest) => item.key === key);
 	}
 
-	public add(key: string, data: any, options: IDataOptions = this.defaultItemDataOptions): boolean {
+	public add<TData>(key: string, data: TData, options: IDataOptions = this.defaultItemDataOptions): boolean {
 		let saved: boolean = false;
 		let oldItem: IDataBankItem = this.dataBank[key];
 		let newItemSize: number = sizeOfItem(key, data) + this.dataBankItemWrapperSize;
@@ -138,7 +138,7 @@ export class DynaCache {
 		return saved;
 	}
 
-	public get(key: string): any {
+	public get<TData>(key: string): TData {
 		let item: IDataBankItem = this.dataBank[key];
 		if (item) {
 			item.lastRead = getNowAsNumber();

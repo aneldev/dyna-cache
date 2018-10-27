@@ -2,7 +2,7 @@ import {
   DynaCache,
   IDynaCacheOptions,
   IDataOptions
-} from "./dyna-cache";
+} from "./DynaCache";
 
 export {
   DynaCache,
