@@ -1,2 +1,2 @@
-import { DynaCache, IDynaCacheOptions, IDataOptions } from "./dyna-cache";
+import { DynaCache, IDynaCacheOptions, IDataOptions } from "./DynaCache";
 export { DynaCache, IDynaCacheOptions, IDataOptions };

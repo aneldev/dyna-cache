@@ -83,8 +83,8 @@ return /******/ (function(modules) { // webpackBootstrap
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var dyna_cache_1 = __webpack_require__(1);
-exports.DynaCache = dyna_cache_1.DynaCache;
+var DynaCache_1 = __webpack_require__(1);
+exports.DynaCache = DynaCache_1.DynaCache;
 
 
 /***/ }),

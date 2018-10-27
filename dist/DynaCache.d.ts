@@ -43,8 +43,8 @@ export declare class DynaCache {
     getItemsCount(): number;
     _test_getItems(): Array<IDataBankItemForTest>;
     _test_getItem(key: string): IDataBankItemForTest;
-    add(key: string, data: any, options?: IDataOptions): boolean;
-    get(key: string): any;
+    add<TData>(key: string, data: TData, options?: IDataOptions): boolean;
+    get<TData>(key: string): TData;
     remove(key: string): boolean;
     clear(): void;
     updateItemOptions(key: string, options: IDataOptions): boolean;
