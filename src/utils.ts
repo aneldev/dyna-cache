@@ -50,6 +50,7 @@ export function objectSize(obj: any): number {
 }
 
 export function sizeOfItem(key: string, data: any): number {
+  if (typeof data === "undefined" || data === null) return 0;
   return objectSize(data) + key.length + 10;
 }
 
