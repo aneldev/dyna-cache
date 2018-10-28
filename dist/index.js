@@ -132,9 +132,6 @@ var DynaCache = /** @class */ (function () {
         this.options = __assign({}, this.options, options);
         this.freeUpForSize(0);
     };
-    DynaCache.prototype.generateKeyForObject = function (obj) {
-        return '#k_' + utils_1.getObjectCRC32(obj);
-    };
     DynaCache.prototype.getMemSize = function () {
         if (this.getItemsCount())
             return this.size - extraSizeForSnapshot;
@@ -406,6 +403,8 @@ function objectSize(obj) {
 }
 exports.objectSize = objectSize;
 function sizeOfItem(key, data) {
+    if (typeof data === "undefined" || data === null)
+        return 0;
     return objectSize(data) + key.length + 10;
 }
 exports.sizeOfItem = sizeOfItem;
@@ -428,30 +427,6 @@ function validateObjPropertiesAndConsoleError(obj, validProperties, errorMessage
         (console.error || console.log)(errorMessage + ": [" + invalidProps.join() + "]");
 }
 exports.validateObjPropertiesAndConsoleError = validateObjPropertiesAndConsoleError;
-var crcTable = (function () {
-    var c;
-    var crcTable = [];
-    for (var n = 0; n < 256; n++) {
-        c = n;
-        for (var k = 0; k < 8; k++) {
-            c = ((c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
-        }
-        crcTable[n] = c;
-    }
-    return crcTable;
-})();
-function getCRC32(str) {
-    var crc = -1;
-    for (var i = 0, iTop = str.length; i < iTop; i++) {
-        crc = (crc >>> 8) ^ crcTable[(crc ^ str.charCodeAt(i)) & 0xFF];
-    }
-    return String((crc ^ (-1)) >>> 0);
-}
-exports.getCRC32 = getCRC32;
-function getObjectCRC32(obj) {
-    return getCRC32(JSON.stringify(obj));
-}
-exports.getObjectCRC32 = getObjectCRC32;
 
 
 /***/ }),

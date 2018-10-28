@@ -38,7 +38,6 @@ export declare class DynaCache {
     constructor(options?: IDynaCacheOptions);
     updateOptions(options: IDynaCacheOptions): void;
     private defaultItemDataOptions;
-    generateKeyForObject(obj: any): string;
     getMemSize(): number;
     getItemsCount(): number;
     _test_getItems(): Array<IDataBankItemForTest>;
