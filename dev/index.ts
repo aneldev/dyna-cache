@@ -6,5 +6,4 @@ import "../tests/utils/mock-jest";
 
 import './fetch-example';
 
-import '../tests/scripts/dynaCache.spec.test';
 

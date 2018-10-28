@@ -74,7 +74,6 @@ All options are optional.
 | getExpired() | IKeyData[]: array with {key: string, data: any} objects | Returns the items that are expired but because of their option `keepExpired: true` in IDataOptions these items are still in cache. |
 | getSnapshot() | string: a snapshot of the cache | Gets a snapshot of the cache in order to save it somewhere and reload it with `loadFromSnapShot`. |
 | loadFromSnapshot(snapshot: string) | nothing but it raises exception in case of faulty snapshot parse | Clears the Cache and loads the cache from this snapshot. (read for more lower) |
-| generateKeyForObject(obj: any) | string: crc32 | Generates key by object, useful to create easy keys by objects with the same structure and values. |
 
 # Item options (IDataOptions)
 

@@ -1,4 +1,4 @@
-import {expireIn, getNowAsNumber, getObjectCRC32, sizeOfItem, validateObjPropertiesAndConsoleError} from "./utils";
+import {expireIn, getNowAsNumber, sizeOfItem, validateObjPropertiesAndConsoleError} from "./utils";
 
 const extraSizeForSnapshot: number = 13;
 
@@ -85,10 +85,6 @@ export class DynaCache {
 		keepExpired: false,
 		doNotRemove: false,
 	};
-
-	public generateKeyForObject(obj: any): string {
-		return '#k_' + getObjectCRC32(obj);
-	}
 
 	public getMemSize(): number {
 		if (this.getItemsCount())
@@ -288,7 +284,7 @@ export class DynaCache {
 	}
 
 	// this is executed once to estimate the actual size to be saved in memory with all options
-	private getSizeOfDataBankItemWrapper() {
+	private getSizeOfDataBankItemWrapper(): number {
 		let key: string = 'test-dyna-cache';
 		let data: string = 'data';
 		this.add('test-dyna-cache', 'data', {

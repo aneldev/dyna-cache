@@ -71,28 +71,3 @@ export function validateObjPropertiesAndConsoleError(obj: any, validProperties: 
   if (invalidProps.length)
     (console.error || console.log)(`${errorMessage}: [${invalidProps.join()}]`);
 }
-
-
-
-const crcTable: any[] = (function () {
-  let c;
-  let crcTable = [];
-  for (let n = 0; n < 256; n++) {
-    c = n;
-    for (let k = 0; k < 8; k++) {
-      c = ((c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
-    }
-    crcTable[n] = c;
-  }
-  return crcTable;
-})();
-export function getCRC32(str: string): string {
-  let crc = -1;
-  for (let i = 0, iTop = str.length; i < iTop; i++) {
-    crc = ( crc >>> 8 ) ^ crcTable[( crc ^ str.charCodeAt(i) ) & 0xFF];
-  }
-  return String((crc ^ (-1)) >>> 0);
-}
-export function getObjectCRC32(obj: any): string {
-  return getCRC32(JSON.stringify(obj));
-}

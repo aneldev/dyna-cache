@@ -2,14 +2,15 @@ declare let
   global: any,
   describe: any, it: any, expect: any;
 
-import {DynaCache} from "../src/index";
+import * as md5 from "md5";
+import {DynaCache} from "../src";
 
 class Fetch {
   private cache = new DynaCache({cacheLimit: 3000000});
   private expireTimeout: string = '30m';
 
   public fetch(url: string, query: any = {}, params: {}, onReceive: (data: string) => void): void {
-    let key: string = this.cache.generateKeyForObject({url, query, params});
+    let key: string = md5({url, query, params});
     let cached: string = this.cache.get(key);
     if (!cached) {
       onReceive(cached);
