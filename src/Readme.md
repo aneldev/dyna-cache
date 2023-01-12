@@ -1,4 +1,4 @@
-﻿# DynaCache v3
+# DynaCache
 
 Caches something and provides it immediately.
 
@@ -35,7 +35,7 @@ const apiLoadArticlesCache = createDynaCache({
 
 The `apiLoadArticlesCache` is na object, with the `load(args: TArgs)` method that returns data.
 
-Thanks to typescript, the function has all types obtained from the `load` method, for the args and for the output.
+Thanks to typescript, the function has all types obtained from the `load` method, for the args and for the output. 
 So we don't have to define anything to the generics of the `createDynaCache`.
 
 **Let's use it**
@@ -113,20 +113,3 @@ loadArticlesCache.free();
 
 
 ```
-
-# Change log
-
-## v3
-
-V3 is totally different approach than V2.
-
-V3 offers plus
-
-- preload
-- refresh
-- cache factory (cache key by args object)
-- simpler code (1/4 of the previous one)
-
-## v2
-
-For v2 open [this](https://github.com/aneldev/dyna-cache/tree/v2.0.1) page.

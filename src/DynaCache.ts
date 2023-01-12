@@ -1,327 +1,101 @@
-import {expireIn, getNowAsNumber, sizeOfItem, validateObjPropertiesAndConsoleError} from "./utils";
+import {IDynaError} from "dyna-error";
 
-const extraSizeForSnapshot: number = 13;
+export interface IDynaCacheConfig<TData> {
+  load: () => Promise<TData>;                   // The load operation
 
-export interface IDynaCacheOptions {
-	cacheLimit?: number;
-	onRemove?: (key: string) => void;
-	onExpire?: (key: string, isRemoved: boolean) => void;
+  expireAfterMinutes?: number;                  // When the cache expires, undefined for none
+  preload?: boolean;                            // Preload the data on start
+  refreshEveryMinutes?: number;                 // Refresh the data silently on background
+  cacheFirstAndUpdate?: boolean;                // Provide the cached version and update on background
+  onLoad?: (data: TData, size: number) => void; // Called when the data are loaded for any reason
+  onSizeChange?: (size: number) => void;
 }
 
-const validOptionProperties: string[] = [
-	'cacheLimit', 'onRemove', 'onExpire'
-];
+export class DynaCache<TData> {
+  private readonly refreshTimer: any;
+  private cachedData: TData | null = null;
+  private _lastError: { error: IDynaError; date: number } | null = null;
+  private _loadedAt = 0;
+  private _loadCount = 0;
+  private _lastUsedAt = 0;
+  private _size = 0;
 
-export interface IKeyData {
-	key: string;
-	data: any;
-}
+  constructor(private readonly config: IDynaCacheConfig<TData>) {
+    if (this.config.preload) this.loadFresh().catch(() => undefined);
+    if (this.config.refreshEveryMinutes) {
+      this.refreshTimer = setInterval(() => this.loadFresh(), this.config.refreshEveryMinutes * 60000);
+    }
+  }
 
-interface IDataBank {
-	[key: string]: IDataBankItem;
-}
+  public get size(): number {
+    return this._size;
+  }
 
-export interface IDataBankItem {
-	key?: string;
-	data: any;
-	size: number;
-	lastRead: number;
-	expiresAt?: Date;
-	expiresTimerHandler?: any;  // object for nodejs number for browsers (number is in browsers, object in nodejs!)
-	onRemove?: (key: string) => void;
-	onExpire?: (key: string, isRemoved: boolean) => void;
-	keepExpired?: boolean;
-	isExpired?: boolean;
-	doNotRemove?: boolean;
-}
+  public get loadedAt(): number {
+    return this._loadedAt;
+  }
 
-export interface IDataBankItemForTest extends IDataBankItem {
-	key: string;
-}
+  public get lastUsedAt(): number {
+    return this._lastUsedAt;
+  }
 
-export interface IDataOptions {
-	expiresIn?: number | string;    // <nummber><''|ms|s|m|h|d|w|mo|y>, examples: 1000 2s 3m 1d 2.5mo
-	keepExpired?: boolean;          // default: false
-	doNotRemove?: boolean;
-	onRemove?: (key: string) => void;
-	onExpire?: (key: string, isRemoved: boolean) => void;
-}
+  public get loadCount(): number {
+    return this._loadCount;
+  }
 
-const validItemOptionProperies: string[] = [
-	'expiresIn', 'onRemove', 'onExpire', 'keepExpired', 'doNotRemove'
-];
+  public get lastError() {
+    return this._lastError;
+  }
 
-export class DynaCache {
+  public async loadFresh(): Promise<TData> {
+    try {
+      this._loadCount++;
+      this._lastUsedAt = Date.now();
+      this._lastError = null;
+      this.cachedData = await this.config.load();
+      this._loadedAt = Date.now();
+      this._size = JSON.stringify(this.cachedData).length;
+      this.config.onLoad && this.config.onLoad(this.cachedData, this._size);
+      this.config.onSizeChange && this.config.onSizeChange(this._size);
+      return this.cachedData;
+    }
+    catch (e) {
+      this._lastError = e;
+      throw e;
+    }
+  }
 
-	private options: IDynaCacheOptions = {
-		cacheLimit: 5000000,
-	};
+  public async load(): Promise<TData> {
+    this._loadCount++;
+    this._lastUsedAt = Date.now();
+    if (
+      this.config.expireAfterMinutes &&
+      this._loadedAt + (this.config.expireAfterMinutes * 60000) < Date.now()
+    ) {
+      return this.loadFresh();
+    }
 
-	private dataBank: IDataBank = {};
-	private size: number = 0;
-	private dataBankItemWrapperSize: number = 0;
+    if (this.cachedData) {
+      if (this.config.cacheFirstAndUpdate) {
+        // Start the refresh in the background
+        this.loadFresh().catch(() => undefined);
+      }
+      return this.cachedData;
+    }
+    else {
+      return this.loadFresh();
+    }
+  }
 
-	constructor(options: IDynaCacheOptions = {}) {
-		validateObjPropertiesAndConsoleError(options, validOptionProperties, 'dyna-cache: these options are not recognized');
-		this.dataBankItemWrapperSize = this.getSizeOfDataBankItemWrapper();
+  public invalidate(): void {
+    this.cachedData = null;
+    this._lastError = null;
+    this._loadedAt = 0;
+    this._size = 0;
+    this.config.onSizeChange && this.config.onSizeChange(this._size);
+  }
 
-		this.options = {
-			...this.options,
-			...options
-		};
-	}
-
-	public updateOptions(options: IDynaCacheOptions): void {
-		this.options = {
-			...this.options,
-			...options,
-		};
-
-		this.freeUpForSize(0);
-	}
-
-	private defaultItemDataOptions: IDataOptions = {
-		expiresIn: null,
-		keepExpired: false,
-		doNotRemove: false,
-	};
-
-	public getMemSize(): number {
-		if (this.getItemsCount())
-			return this.size - extraSizeForSnapshot;
-		else
-			return 0;
-	}
-
-	public getItemsCount(): number {
-		return Object.keys(this.dataBank).length;
-	}
-
-	public _test_getItems(): Array<IDataBankItemForTest> {
-		return Object.keys(this.dataBank)
-			.map((key: string) => ({...this.dataBank[key], key} as IDataBankItemForTest))
-	}
-
-	public _test_getItem(key: string): IDataBankItemForTest {
-		return this._test_getItems().find((item: IDataBankItemForTest) => item.key === key);
-	}
-
-	public add<TData>(key: string, data: TData, options: IDataOptions = this.defaultItemDataOptions): boolean {
-		let saved: boolean = false;
-		let oldItem: IDataBankItem = this.dataBank[key];
-		let newItemSize: number = sizeOfItem(key, data) + this.dataBankItemWrapperSize;
-
-		if (oldItem) this.size -= oldItem.size;
-
-		if (!oldItem || (newItemSize > oldItem.size)) {   // if there is no old item with the same key or there is and the new is bigger
-			this.freeUpForSize(newItemSize);                // make room for the new one
-		}
-
-		let newItem: IDataBankItem = {
-			data,
-			size: newItemSize,
-			lastRead: getNowAsNumber(),
-		};
-
-		if (this.size + newItemSize <= this.options.cacheLimit) {
-			this.dataBank[key] = newItem;
-			this.size += newItemSize;
-			saved = true;
-		}
-
-		this.updateOptionsOnBankDataItem(key, newItem, options, saved);
-
-		return saved;
-	}
-
-	public get<TData>(key: string): TData {
-		let item: IDataBankItem = this.dataBank[key];
-		if (item) {
-			item.lastRead = getNowAsNumber();
-			return item.data;
-		}
-		else {
-			return undefined;
-		}
-	}
-
-	public remove(key: string): boolean {
-		let item: IDataBankItem = this.dataBank[key];
-		if (item) {
-			this.size -= item.size;
-			delete this.dataBank[key];
-			item.onRemove && item.onRemove(key);
-			this.options.onRemove && this.options.onRemove(key);
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	public clear(): void {
-		Object.keys(this.dataBank)
-			.forEach((key: string) => {
-				const item: IDataBankItem = this.dataBank[key];
-				if (typeof item.expiresTimerHandler !== null) {
-					clearTimeout(item.expiresTimerHandler as any);
-				}
-			});
-
-		this.dataBank = {};
-		this.size = 0;
-	}
-
-	public updateItemOptions(key: string, options: IDataOptions): boolean {
-		let item: IDataBankItem = this.dataBank[key];
-		if (item) {
-			this.updateOptionsOnBankDataItem(key, item, options, true);
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-
-	public getExpired(): IKeyData[] {
-		return Object.keys(this.dataBank)
-			.map(key => ({key, info: this.dataBank[key]}))
-			.filter(item => item.info.isExpired)
-			.map(item => ({key: item.key, data: item.info.data}));
-	}
-
-	public getSnapshot(): string {
-		let dataBank: IDataBank = {};
-
-		Object.keys(this.dataBank).forEach((key: string) => {
-			let item: IDataBankItem = Object.assign({}, this.dataBank[key]);
-			item.expiresTimerHandler = null;
-			dataBank[key] = item;
-		});
-
-		let snapBin: any = {dataBank};
-
-		try {
-			return JSON.stringify(snapBin);
-		}
-		catch (error) {
-			error.message = 'dyna-cache, getSnapshot: ' + (error.message || 'unknown error stringifying the data');
-			throw error;
-		}
-	}
-
-	public loadFromSnapshot(snapshot: string): void {
-		try {
-			this.clear();
-
-			let snapBin: any = JSON.parse(snapshot);
-			let keysToRemove: string[] = [];
-
-			this.dataBank = snapBin.dataBank;
-			this.size = 0;
-
-			Object.keys(this.dataBank).forEach((key: string) => {
-				let item: IDataBankItem = this.dataBank[key];
-				this.size += item.size;
-
-				if (item.expiresAt) {
-					let expiresIn: number = (new Date(item.expiresAt)).getTime() - (new Date()).getTime();
-
-					if (expiresIn <= 0) {
-						keysToRemove.push(key);
-						this.size -= item.size;
-					}
-					else {
-						item.expiresTimerHandler = setTimeout(() => {
-							this.remove(key);
-						}, expiresIn);
-					}
-				}
-			});
-
-			this.freeUpForSize(0);
-
-			keysToRemove.forEach((key: string) => delete this.dataBank[key]);
-		}
-		catch (error) {
-			this.clear();
-			error.message = 'dyna-cache, loadFromSnapshot: ' + (error.message || 'unknown error stringifying the data');
-			throw error;
-		}
-	}
-
-	private updateOptionsOnBankDataItem(key: string, item: IDataBankItem, options: IDataOptions, isSaved: boolean): void {
-		validateObjPropertiesAndConsoleError(options, validItemOptionProperies, 'dyna-cache, item\'s options: these options are not recognized');
-
-		item.isExpired = false;
-		item.keepExpired = !!options.keepExpired;
-		item.doNotRemove = !!options.doNotRemove;
-		item.onRemove = options.onRemove;
-		item.onExpire = options.onExpire;
-
-		// expiresIn
-		if (options && options.expiresIn && isSaved) {
-			let expiresIn: number = expireIn(options.expiresIn);
-
-			if (item.expiresTimerHandler !== null)
-				clearTimeout((item.expiresTimerHandler as any));
-
-			if (expiresIn == -1) {
-				item.expiresAt = null;
-				item.expiresTimerHandler = null;
-			}
-			else {
-				item.expiresAt = new Date((new Date()).getTime() + expiresIn);
-				item.expiresTimerHandler = setTimeout(() => {
-					item.isExpired = true;
-					item.onExpire && item.onExpire(key, !item.keepExpired);
-					this.options.onExpire && this.options.onExpire(key, !item.keepExpired);
-					if (!item.keepExpired) this.remove(key);
-				}, expiresIn);
-			}
-		}
-
-	}
-
-	// this is executed once to estimate the actual size to be saved in memory with all options
-	private getSizeOfDataBankItemWrapper(): number {
-		let key: string = 'test-dyna-cache';
-		let data: string = 'data';
-		this.add('test-dyna-cache', 'data', {
-			expiresIn: '1s',
-			onRemove: (key: string) => undefined,
-			onExpire: (key, isRemoved: boolean) => undefined,
-			keepExpired: true,
-		});
-
-		let jsonObjectSeaprator: number = 1;
-		let sizeOfSizeValue: number = 10;
-
-		let size =
-			sizeOfItem(key, this.dataBank[key])
-			- key.length
-			- data.length
-			+ jsonObjectSeaprator
-			+ sizeOfSizeValue;
-
-		this.remove(key);
-
-		return size;
-	}
-
-	private freeUpForSize(sizeInBytes: number): void {
-		let optionsMaxLoad = this.options.cacheLimit;
-
-		if (sizeInBytes < optionsMaxLoad - this.size) return; // exit, there is enough space
-		if (sizeInBytes > optionsMaxLoad) return;             // exit, this size cannot fit anyway
-
-		let items: IDataBankItem[] = Object.keys(this.dataBank)
-			.map((key: string) => ({...this.dataBank[key], key} as IDataBankItem))
-			.filter((item: IDataBankItem) => !!!item.doNotRemove)
-			.sort((itemA: IDataBankItem, itemB: IDataBankItem) => itemA.lastRead - itemB.lastRead);
-
-		while (this.size + sizeInBytes > optionsMaxLoad) {
-			this.remove(items.shift().key);
-		}
-	}
+  public free(): void {
+    if (this.refreshTimer) clearInterval(this.refreshTimer);
+  }
 }
