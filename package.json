@@ -1,6 +1,6 @@
 {
   "name": "dyna-cache",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Cache with controlled memory consumption",
   "repository": {
     "type": "git",
