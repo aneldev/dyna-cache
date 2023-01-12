@@ -120,6 +120,13 @@ loadArticlesCache.free();
 
 V3 is totally different approach than V2.
 
+V3 offers plus
+
+- preload
+- refresh
+- cache factory (cache key by args object)
+- simpler code (1/4 of the previous one)
+
 ## v2
 
 For v2 open [this](https://github.com/aneldev/dyna-cache/tree/v2.0.1) page.
