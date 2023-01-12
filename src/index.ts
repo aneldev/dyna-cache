@@ -1,11 +1,9 @@
-import {
+export {
   DynaCache,
-  IDynaCacheOptions,
-  IDataOptions
+  IDynaCacheConfig,
 } from "./DynaCache";
 
 export {
-  DynaCache,
-  IDynaCacheOptions,
-  IDataOptions
-}
+  createDynaCache,
+  ICreateDynaCacheConfig,
+} from "./createDynaCache";
