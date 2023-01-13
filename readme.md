@@ -8,7 +8,7 @@ Preload, refresh features out of the box.
 
 This factory function creates another function that uses the cache behind this.
 
-# Example
+## Example
 
 Suppose we have this interface of articles
 ```
@@ -27,13 +27,13 @@ const apiLoadArticles = async (args: {lang: string, group: string}): Promise<ITe
 Let's make api method cacheable version of it
 
 ```
-const apiLoadArticlesCache = createDynaCache({
+const apiLoadArticlesCacheEngine = createDynaCache({
   load: apiLoadArticles,
   expireAfterMinutes: 10,
 });
 ```
 
-The `apiLoadArticlesCache` is na object, with the `load(args: TArgs)` method that returns data.
+The `apiLoadArticlesCacheEngine` is na object, with the `load(args: TArgs)` method that returns data.
 
 Thanks to typescript, the function has all types obtained from the `load` method, for the args and for the output.
 So we don't have to define anything to the generics of the `createDynaCache`.
@@ -41,7 +41,7 @@ So we don't have to define anything to the generics of the `createDynaCache`.
 **Let's use it**
 ```
 
-apiLoadArticlesCache.load({lang: 'en', group: 'fashion'})     // We pass the object as we do with the apiLoadArticles
+apiLoadArticlesCacheEngine.load({lang: 'en', group: 'fashion'})     // We pass the object as we do with the apiLoadArticles
   .then(articles => {
     // We have types articles here
     articles.forEach(article => {
@@ -50,7 +50,7 @@ apiLoadArticlesCache.load({lang: 'en', group: 'fashion'})     // We pass the obj
   });
 ```
 
-# Configuration object of the `createDynaCache`
+## Configuration object of the `createDynaCache`
 
 ```
 interface ICreateDynaCacheConfig<TArgs, TData, > {
@@ -61,15 +61,24 @@ interface ICreateDynaCacheConfig<TArgs, TData, > {
 }
 ```
 
-## Don't forget to free it!
+## Invalidate the cache
 
-Cache keeps resources and you have to free them if you don't use them any more.
+To invalidate the cache (to clear the content of the cache) call the `invalidate()`
 
-Just `apiLoadArticlesCache.free()`.
+`apiLoadArticlesCacheEngine.invalidate();`
+
+
+## Don't forget to free() it!
+
+Cache keeps resources for refreshing, etc.
+
+If you are going to free the owner of it, your have to call the `.free()` also!
+
+Just `apiLoadArticlesCacheEngine.free()`.
 
 ## How does it works internally?
 
-The `apiLoadArticlesCache` creates internally small caches for each different `args`.
+The `apiLoadArticlesCacheEngine` creates internally small caches for each different `args`.
 
 If you ask the same args, then the cached version will be served.
 
@@ -89,6 +98,21 @@ This is how to create a DynaCache class.
   onLoad?: (data: TData) => void;   // Called when the data are loaded for any reason
 }
 ```
+
+## Methods
+
+- `load(): Promise<TData>` load from cache or from source if it is not yet cached
+- `loadFresh(): Promise<TData>` load fresh data (not from cache)
+- `invalidate(): void` clear the cache, all further loads will be new
+- `free(): void` destroy the cache (cleans up auto refresh cache)
+
+## Properties
+
+- `get size(): number` returns the size of the cache in bytes
+- `get loadedAt(): number` timestamp when the last load took place
+- `get lastUsedAt(): number` timestamp when the cache read last time
+- `get loadCount(): number` how many the cache was updated
+- `get lastError(): any` last load error
 
 ## Example
 ```
@@ -110,8 +134,6 @@ loadArticlesCache.load(); // The return is always up to date and fast
 // This is needed when `expireAfterMinutes` or `refreshEveryMinutes`
 loadArticlesCache.free();
 // Note, now you cannot use it anymore
-
-
 ```
 
 # Change log

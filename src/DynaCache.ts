@@ -5,7 +5,7 @@ export interface IDynaCacheConfig<TData> {
 
   expireAfterMinutes?: number;                  // When the cache expires, undefined for none
   preload?: boolean;                            // Preload the data on start
-  refreshEveryMinutes?: number;                 // Refresh the data silently on background
+  refreshEveryMinutes?: number;                 // Refresh the data silently on background. NOTE: Requires .free() to stop refreshing and avoid memory leaks.
   cacheFirstAndUpdate?: boolean;                // Provide the cached version and update on background
   onLoad?: (data: TData, size: number) => void; // Called when the data are loaded for any reason
   onSizeChange?: (size: number) => void;
