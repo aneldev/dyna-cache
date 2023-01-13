@@ -37,21 +37,45 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DynaCache = void 0;
+var dyna_job_queue_1 = require("dyna-job-queue");
 var DynaCache = /** @class */ (function () {
     function DynaCache(config) {
         var _this = this;
         this.config = config;
+        this.queue = new dyna_job_queue_1.DynaJobQueue();
         this.cachedData = null;
         this._lastError = null;
         this._loadedAt = 0;
         this._loadCount = 0;
         this._lastUsedAt = 0;
         this._size = 0;
+        this.load = function () { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                this._loadCount++;
+                this._lastUsedAt = Date.now();
+                if (this.config.expireAfterMinutes &&
+                    this._loadedAt + (this.config.expireAfterMinutes * 60000) < Date.now()) {
+                    return [2 /*return*/, this.loadFresh()];
+                }
+                if (this.cachedData) {
+                    if (this.config.cacheFirstAndUpdate) {
+                        // Start the refresh in the background
+                        this.loadFresh().catch(function () { return undefined; });
+                    }
+                    return [2 /*return*/, this.cachedData];
+                }
+                else {
+                    return [2 /*return*/, this.loadFresh()];
+                }
+                return [2 /*return*/];
+            });
+        }); };
         if (this.config.preload)
             this.loadFresh().catch(function () { return undefined; });
         if (this.config.refreshEveryMinutes) {
             this.refreshTimer = setInterval(function () { return _this.loadFresh(); }, this.config.refreshEveryMinutes * 60000);
         }
+        this.load = this.queue.jobFactory(this.load);
     }
     Object.defineProperty(DynaCache.prototype, "size", {
         get: function () {
@@ -113,29 +137,6 @@ var DynaCache = /** @class */ (function () {
                         throw e_1;
                     case 3: return [2 /*return*/];
                 }
-            });
-        });
-    };
-    DynaCache.prototype.load = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                this._loadCount++;
-                this._lastUsedAt = Date.now();
-                if (this.config.expireAfterMinutes &&
-                    this._loadedAt + (this.config.expireAfterMinutes * 60000) < Date.now()) {
-                    return [2 /*return*/, this.loadFresh()];
-                }
-                if (this.cachedData) {
-                    if (this.config.cacheFirstAndUpdate) {
-                        // Start the refresh in the background
-                        this.loadFresh().catch(function () { return undefined; });
-                    }
-                    return [2 /*return*/, this.cachedData];
-                }
-                else {
-                    return [2 /*return*/, this.loadFresh()];
-                }
-                return [2 /*return*/];
             });
         });
     };

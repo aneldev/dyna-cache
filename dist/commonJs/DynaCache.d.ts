@@ -11,6 +11,7 @@ export interface IDynaCacheConfig<TData> {
 export declare class DynaCache<TData> {
     private readonly config;
     private readonly refreshTimer;
+    private queue;
     private cachedData;
     private _lastError;
     private _loadedAt;
@@ -27,7 +28,7 @@ export declare class DynaCache<TData> {
         date: number;
     } | null;
     loadFresh(): Promise<TData>;
-    load(): Promise<TData>;
+    load: () => Promise<TData>;
     invalidate(): void;
     free(): void;
 }

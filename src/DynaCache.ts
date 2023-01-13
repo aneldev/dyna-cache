@@ -1,4 +1,5 @@
 import {IDynaError} from "dyna-error";
+import {DynaJobQueue} from "dyna-job-queue";
 
 export interface IDynaCacheConfig<TData> {
   load: () => Promise<TData>;                   // The load operation
@@ -13,7 +14,10 @@ export interface IDynaCacheConfig<TData> {
 
 export class DynaCache<TData> {
   private readonly refreshTimer: any;
+  private queue = new DynaJobQueue();
+
   private cachedData: TData | null = null;
+
   private _lastError: { error: IDynaError; date: number } | null = null;
   private _loadedAt = 0;
   private _loadCount = 0;
@@ -25,6 +29,7 @@ export class DynaCache<TData> {
     if (this.config.refreshEveryMinutes) {
       this.refreshTimer = setInterval(() => this.loadFresh(), this.config.refreshEveryMinutes * 60000);
     }
+    this.load = this.queue.jobFactory(this.load);
   }
 
   public get size(): number {
@@ -65,7 +70,7 @@ export class DynaCache<TData> {
     }
   }
 
-  public async load(): Promise<TData> {
+  public load = async (): Promise<TData> => {
     this._loadCount++;
     this._lastUsedAt = Date.now();
     if (
@@ -85,7 +90,7 @@ export class DynaCache<TData> {
     else {
       return this.loadFresh();
     }
-  }
+  };
 
   public invalidate(): void {
     this.cachedData = null;
